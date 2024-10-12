@@ -42,7 +42,6 @@ pub type HandlerFunction = fn(HTTPRequest, Arc<RwLock<Args>>) -> anyhow::Result<
 /// use std::sync::{Arc, RwLock};
 /// use your_library::{Args, HTTPRequest, HTTPResponse, Router, Server};
 ///
-/// #[derive(Clone)]
 /// struct Counter {
 ///     value: usize,
 /// }
@@ -73,7 +72,7 @@ pub type HandlerFunction = fn(HTTPRequest, Arc<RwLock<Args>>) -> anyhow::Result<
 ///
 ///         let response = HTTPResponse {
 ///             version: http::Version::V11,
-///             status_code: http::StatusCode::OK,
+///             status_code: http::StatusCode::CODE200,
 ///             headers: HashMap::new(),
 ///             body: Some(format!("Counter value: {}", counter.value).into()),
 ///         };
