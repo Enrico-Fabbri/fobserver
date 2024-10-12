@@ -19,5 +19,6 @@ A lightweight and straightforward HTTP server library written in Rust. This libr
 
 Add the following to your `Cargo.toml`:
 
+```toml
 [dependencies]
 fobserver = "0.1.0"
