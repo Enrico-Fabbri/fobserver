@@ -5,6 +5,7 @@ edition = "2021"
 authors = ["fob"]
 repository = "https://github.com/Enrico-Fabbri/fobserver"
 license = "MIT"
+readme = "README.md"
 
 
 [dependencies]
