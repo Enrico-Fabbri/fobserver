@@ -2,6 +2,10 @@
 name = "fobserver"
 version = "0.1.0"
 edition = "2021"
+authors = ["fob"]
+repository = "https://github.com/Enrico-Fabbri/fobserver"
+license = "MIT"
+
 
 [dependencies]
 log = "0.4.22"
