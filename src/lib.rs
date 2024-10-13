@@ -40,7 +40,7 @@ pub type HandlerFunction = fn(HTTPRequest, Arc<RwLock<Args>>) -> anyhow::Result<
 ///
 /// ```
 /// use std::sync::{Arc, RwLock};
-/// use your_library::{Args, HTTPRequest, HTTPResponse, Router, Server};
+/// use fobserver::{Args, HTTPRequest, HTTPResponse, Router, Server};
 ///
 /// struct Counter {
 ///     value: usize,
@@ -137,7 +137,13 @@ impl Server {
             }
         }
 
-        String::from_utf8_lossy(&buffer)[..dim].to_string().parse()
+        let mut request: HTTPRequest = String::from_utf8_lossy(&buffer)[..dim]
+            .to_string()
+            .parse()?;
+
+        request.addr = stream.peer_addr()?.ip();
+
+        Ok(request)
     }
 
     /// Writes an HTTP response to the given TCP stream.
@@ -197,7 +203,7 @@ impl Server {
             match stream {
                 Ok(stream) => {
                     thread::spawn(move || -> anyhow::Result<()> {
-                        // read request
+                        // Read request
                         let request = Server::read_request(&stream)?;
                         // Find path
                         let response = match router.read() {
@@ -212,7 +218,7 @@ impl Server {
                             },
                             Err(err) => return Err(anyhow::anyhow!("Error: {}", err)),
                         };
-                        // send response and close connection
+                        // Send response and close connection
                         Server::write_response(&stream, response)
                     });
                 }

@@ -1,4 +1,4 @@
-use std::{collections::HashMap, str::FromStr};
+use std::{collections::HashMap, net::IpAddr, str::FromStr};
 
 /// Represents an HTTP method.
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
@@ -174,6 +174,7 @@ pub struct HTTPRequest {
     pub path: String,
     pub version: Version,
     pub headers: HashMap<String, String>,
+    pub addr: IpAddr,
     pub body: Option<String>,
 }
 
@@ -231,6 +232,7 @@ impl FromStr for HTTPRequest {
             path,
             version,
             headers,
+            addr: IpAddr::from_str("0.0.0.0")?,
             body,
         })
     }
