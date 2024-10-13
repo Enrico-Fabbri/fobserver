@@ -163,8 +163,7 @@ impl Server {
 
         stream.write_all(format!("{}\n\n", response.to_string()).as_bytes())?;
 
-        if let Some(body) = body {
-            let bytes = body.as_bytes();
+        if let Some(bytes) = body {
             let mut start = 0;
 
             while start < bytes.len() {

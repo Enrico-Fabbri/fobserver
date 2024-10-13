@@ -247,8 +247,8 @@ impl HTTPRequest {
     /// # Returns
     ///
     /// Returns a `Option` containing the `String` value or None.
-    pub fn get_header(request: &HTTPRequest, header: String) -> Option<String> {
-        match request.headers.get(&header) {
+    pub fn get_header(request: &HTTPRequest, header: &str) -> Option<String> {
+        match request.headers.get(header) {
             Some(value) => Some(value.to_string()),
             None => None,
         }
@@ -265,7 +265,7 @@ impl HTTPRequest {
     /// Returns a `Result` containing the `HashMap<String, String>` map containing the cookies or an error.
     pub fn get_cookies(request: &HTTPRequest) -> anyhow::Result<HashMap<String, String>> {
         let mut cookies = HashMap::new();
-        let data = match HTTPRequest::get_header(request, "Cookie".to_string()) {
+        let data = match HTTPRequest::get_header(request, "Cookie") {
             Some(data) => data,
             None => return Err(anyhow::anyhow!("No Cookie header found")),
         };
@@ -292,10 +292,10 @@ impl HTTPRequest {
     /// # Returns
     ///
     /// Returns a `Result` containing the `String` value of the cookie or an error.
-    pub fn get_cookie(request: &HTTPRequest, cookie: String) -> anyhow::Result<String> {
+    pub fn get_cookie(request: &HTTPRequest, cookie: &str) -> anyhow::Result<String> {
         let cookies = HTTPRequest::get_cookies(request)?;
 
-        match cookies.get(&cookie) {
+        match cookies.get(cookie) {
             Some(cookie) => Ok(cookie.to_string()),
             None => {
                 return Err(anyhow::anyhow!(
@@ -313,7 +313,7 @@ pub struct HTTPResponse {
     pub version: Version,
     pub status_code: StatusCode,
     pub headers: HashMap<String, String>,
-    pub body: Option<String>,
+    pub body: Option<Vec<u8>>,
 }
 
 /// Provides functionality to parse a `HTTPRequest` struct into an HTTP response string.
